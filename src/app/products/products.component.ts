@@ -39,31 +39,35 @@ export class ProductsComponent {
   }
 
   async loadMostSoldProduct() {
-    const product = await this.productService.getMostSoldProduct();
-    this.renderChart(product.nombre, product.cantidadVendida);
+    const products = await this.productService.getMostSoldProduct();
+    this.renderChart(products.slice(0, 3));
   }
 
-  async renderChart(productName: string, sales: number) {
+  renderChart(products: { nombre: string, cantidadVendida: number }[]) {
+    // Suponiendo que estás usando una librería de gráficos como Chart.js
+    const labels = products.map(product => product.nombre);
+    const data = products.map(product => product.cantidadVendida);
+  
     const ctx = document.getElementById('salesChart') as HTMLCanvasElement;
-    this.chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: [productName],
-        datasets: [{
-          label: 'Cantidad Vendida',
-          data: [sales],
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Cantidad Vendida',
+            data: data,
+            backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+            borderColor: ['rgba(75, 192, 192, 1)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
           }
         }
-      }
-    });
+      });
   }
 }
