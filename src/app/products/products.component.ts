@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ProductService } from '../services/product.service';
 import { Chart } from 'chart.js/auto';
 
+// Saludos 
+
 @Component({
   selector: 'app-products',
   standalone: true,
